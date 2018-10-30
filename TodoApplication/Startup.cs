@@ -84,6 +84,7 @@ namespace TodoApplication
 			// Add application services.
 			services.AddTransient<IEmailSender, EmailSender>();
 
+			// add mvc
 			services.AddMvc();
 		}
 
