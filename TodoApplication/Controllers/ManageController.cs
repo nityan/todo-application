@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TodoApplication.Data.Model;
+using TodoApplication.Extensions;
 using TodoApplication.Models;
 using TodoApplication.Models.ManageViewModels;
 using TodoApplication.Services;
@@ -20,8 +22,8 @@ namespace TodoApplication.Controllers
 	[Route("[controller]/[action]")]
 	public class ManageController : Controller
 	{
-		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly ApplicationUserManager _userManager;
+		private readonly ApplicationSignInManager _signInManager;
 		private readonly IEmailSender _emailSender;
 		private readonly ILogger _logger;
 		private readonly UrlEncoder _urlEncoder;
@@ -30,8 +32,8 @@ namespace TodoApplication.Controllers
 		private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
 		public ManageController(
-		  UserManager<ApplicationUser> userManager,
-		  SignInManager<ApplicationUser> signInManager,
+			ApplicationUserManager userManager,
+		  ApplicationSignInManager signInManager,
 		  IEmailSender emailSender,
 		  ILogger<ManageController> logger,
 		  UrlEncoder urlEncoder)
@@ -267,7 +269,7 @@ namespace TodoApplication.Controllers
 				throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
 			}
 
-			var info = await _signInManager.GetExternalLoginInfoAsync(user.Id);
+			var info = await _signInManager.GetExternalLoginInfoAsync(user.Id.ToString());
 			if (info == null)
 			{
 				throw new ApplicationException($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");

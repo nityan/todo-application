@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TodoApplication.Data.Model;
+using TodoApplication.Extensions;
 using TodoApplication.Models;
 using TodoApplication.Models.AccountViewModels;
 using TodoApplication.Services;
@@ -20,14 +22,14 @@ namespace TodoApplication.Controllers
 	[Route("[controller]/[action]")]
 	public class AccountController : Controller
 	{
-		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly ApplicationUserManager _userManager;
+		private readonly ApplicationSignInManager _signInManager;
 		private readonly IEmailSender _emailSender;
 		private readonly ILogger _logger;
 
 		public AccountController(
-			UserManager<ApplicationUser> userManager,
-			SignInManager<ApplicationUser> signInManager,
+			ApplicationUserManager userManager,
+			ApplicationSignInManager signInManager,
 			IEmailSender emailSender,
 			ILogger<AccountController> logger)
 		{
